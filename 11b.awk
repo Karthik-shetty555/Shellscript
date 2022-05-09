@@ -29,9 +29,4 @@ END {
 printf("\n--------------------------------------------------------------------------\n")
 printf("\nTotal basic salary is:%d\nTotal DA is :%3d\nTotal HRA is:%d\nTotal Grosssalaray is:%d\n",tbs,tda,thra,tgs)
 printf("--------------------------------------------------------------------------\n")
-printf("\nTotal number of employeee:%3d",count)
-printf("\nDA is(tda/count):%5d",tda/count)
-printf("\nHRA is(thra/count):6%d",thra/count)
-printf("\nGross salary(tgs/count):4%d",tgs/count)
-printf("\n--------------------------------------------------------------------------\n")
 }
