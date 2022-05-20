@@ -1,0 +1,6 @@
+4b.
+First create 1 file using cat command
+and create 2 hardlinks -->ln abc xyz
+ln abc pqr
+then run the program with filename.
+
