@@ -1,0 +1,22 @@
+create table student (usn char(10) primary key,name varchar(20) not null,address varchar(30),branch_id char(10) not null,sem char(5) not null);
+
+create table branch (branch_id char(10) primary key,B_name varchar(20) not null,hod varchar(20));
+
+alter table student add (sem varchar(10) not null);
+
+alter table student drop column sem;
+
+alter table  student modify (usn char(10) unique);
+
+alter table branch add foreign key(usn) references student(usn);
+
+insert into branch values('104','mech');
+
+delete from student where usn='101';
+
+select * from branch where usn in (select usn from student where name='manu' or usn='101');
+
+show databases;
+
+mysql -h 192.168.14.71 -u VP21MC012 -p
+

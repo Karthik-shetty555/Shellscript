@@ -1,0 +1,152 @@
+ create table student(usn char(10) primary key,name varchar(20) not null,dob date not null,branch varchar(20) not null,mark1 float(5,2),
+mark2 float(5,2),mark3 float(5,2),total float(5,2),gpa float(5,2));
+
+ insert into student (usn,name,dob,branch,mark1,mark2,mark3) values ("VP21MC01","manoj","2000-04-25","mech",96.00,78.00,100.00);
+  insert into student (usn,name,dob,branch,mark1,mark2,mark3) values ("VP21MC04","dhanu","2001-12-24","mca",77,58,69);
+  
+ select * from student;
++----------+--------+------------+--------+-------+-------+--------+-------+------+
+| usn      | name   | dob        | branch | mark1 | mark2 | mark3  | total | gpa  |
++----------+--------+------------+--------+-------+-------+--------+-------+------+
+| VP21MC01 | manoj  | 2000-04-25 | mech   | 96.00 | 78.00 | 100.00 |  NULL | NULL |
+| VP21MC02 | nagesh | 2000-03-25 | mca    | 96.00 | 30.00 |  45.00 |  NULL | NULL |
+| VP21MC03 | neha   | 2001-02-27 | mca    | 66.00 | 45.00 |  65.00 |  NULL | NULL |
+| VP21MC04 | suresh | 2001-12-24 | mech   | 77.00 | 58.00 |  69.00 |  NULL | NULL |
+| VP21MC05 | guru   | 1999-12-01 | mba    | 35.00 | 30.00 |  20.00 |  NULL | NULL |
+| VP21MC06 | dhanya | 1999-12-01 | mba    | 70.00 | 45.00 |  60.00 |  NULL | NULL |
+| VP21MC07 | nishmi | 1999-07-01 | mba    | 70.00 | 70.00 |  60.00 |  NULL | NULL |
++----------+--------+------------+--------+-------+-------+--------+-------+------+
+7 rows in set (0.00 sec)
+
+
+insert into student (usn,name,dob,branch,mark1,mark2,mark3) values ("VP21MC05","guru","1999-12-01","mba",35,30,20);
+
+update student set total=mark1+mark2+mark3;
+Query OK, 7 rows affected (0.00 sec)
+Rows matched: 7  Changed: 7  Warnings: 0
+
+mysql> select * from student;
++----------+--------+------------+--------+-------+-------+--------+--------+------+
+| usn      | name   | dob        | branch | mark1 | mark2 | mark3  | total  | gpa  |
++----------+--------+------------+--------+-------+-------+--------+--------+------+
+| VP21MC01 | manoj  | 2000-04-25 | mech   | 96.00 | 78.00 | 100.00 | 274.00 | NULL |
+| VP21MC02 | nagesh | 2000-03-25 | mca    | 96.00 | 30.00 |  45.00 | 171.00 | NULL |
+| VP21MC03 | neha   | 2001-02-27 | mca    | 66.00 | 45.00 |  65.00 | 176.00 | NULL |
+| VP21MC04 | suresh | 2001-12-24 | mech   | 77.00 | 58.00 |  69.00 | 204.00 | NULL |
+| VP21MC05 | guru   | 1999-12-01 | mba    | 35.00 | 30.00 |  20.00 |  85.00 | NULL |
+| VP21MC06 | dhanya | 1999-12-01 | mba    | 70.00 | 45.00 |  60.00 | 175.00 | NULL |
+| VP21MC07 | nishmi | 1999-07-01 | mba    | 70.00 | 70.00 |  60.00 | 200.00 | NULL |
++----------+--------+------------+--------+-------+-------+--------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> update student set gpa=(total/3.0);
+Query OK, 7 rows affected (0.00 sec)
+
+mysql> select usn,name from student where name like "s%";
++----------+--------+
+| usn      | name   |
++----------+--------+
+| VP21MC04 | suresh |
++----------+--------+
+
+Rows matched: 7  Changed: 7  Warnings: 0
+
+mysql> select * from student;
++----------+--------+------------+--------+-------+-------+--------+--------+-------+
+| usn      | name   | dob        | branch | mark1 | mark2 | mark3  | total  | gpa   |
++----------+--------+------------+--------+-------+-------+--------+--------+-------+
+| VP21MC01 | manoj  | 2000-04-25 | mech   | 96.00 | 78.00 | 100.00 | 274.00 | 91.33 |
+| VP21MC02 | nagesh | 2000-03-25 | mca    | 96.00 | 30.00 |  45.00 | 171.00 | 57.00 |
+| VP21MC03 | neha   | 2001-02-27 | mca    | 66.00 | 45.00 |  65.00 | 176.00 | 58.67 |
+| VP21MC04 | suresh | 2001-12-24 | mech   | 77.00 | 58.00 |  69.00 | 204.00 | 68.00 |
+| VP21MC05 | guru   | 1999-12-01 | mba    | 35.00 | 30.00 |  20.00 |  85.00 | 28.33 |
+| VP21MC06 | dhanya | 1999-12-01 | mba    | 70.00 | 45.00 |  60.00 | 175.00 | 58.33 |
+| VP21MC07 | nishmi | 1999-07-01 | mba    | 70.00 | 70.00 |  60.00 | 200.00 | 66.67 |
++----------+--------+------------+--------+-------+-------+--------+--------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select usn,name from student where dob between "2000-01-01" and "2010-12-30";
++----------+--------+
+| usn      | name   |
++----------+--------+
+| VP21MC01 | manoj  |
+| VP21MC02 | nagesh |
+| VP21MC03 | neha   |
+| VP21MC04 | suresh |
++----------+--------+
+
+select * from student where branch="mca";
++----------+--------+------------+--------+-------+-------+-------+--------+-------+
+| usn      | name   | dob        | branch | mark1 | mark2 | mark3 | total  | gpa   |
++----------+--------+------------+--------+-------+-------+-------+--------+-------+
+| VP21MC02 | nagesh | 2000-03-25 | mca    | 96.00 | 30.00 | 45.00 | 171.00 | 57.00 |
+| VP21MC03 | neha   | 2001-02-27 | mca    | 66.00 | 45.00 | 65.00 | 176.00 | 58.67 |
++----------+--------+------------+--------+-------+-------+-------+--------+-------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> select branch,max(gpa) from student group by branch;
++--------+----------+
+| branch | max(gpa) |
++--------+----------+
+| mech   |    91.33 |
+| mca    |    58.67 |
+| mba    |    66.67 |
++--------+----------+
+3 rows in set (0.00 sec)
+
+
+mysql> select usn,name from student where name like "%sh";
++----------+--------+
+| usn      | name   |
++----------+--------+
+| VP21MC02 | nagesh |
+| VP21MC04 | suresh |
++----------+--------+
+2 rows in set (0.00 sec)
+
+
+delete from student where usn="VP21MC01";
+Query OK, 1 row affected (0.00 sec)
+
+delete from student where usn="VP21MC01";
+Query OK, 1 row affected (0.00 sec)
+select * from student;
++----------+--------+------------+--------+-------+-------+-------+--------+-------+
+| usn      | name   | dob        | branch | mark1 | mark2 | mark3 | total  | gpa   |
++----------+--------+------------+--------+-------+-------+-------+--------+-------+
+| VP21MC02 | nagesh | 2000-03-25 | mca    | 96.00 | 30.00 | 45.00 | 171.00 | 57.00 |
+| VP21MC03 | neha   | 2001-02-27 | mca    | 66.00 | 45.00 | 65.00 | 176.00 | 58.67 |
+| VP21MC04 | suresh | 2001-12-24 | mech   | 77.00 | 58.00 | 69.00 | 204.00 | 68.00 |
+| VP21MC05 | guru   | 1999-12-01 | mba    | 35.00 | 30.00 | 20.00 |  85.00 | 28.33 |
+| VP21MC06 | dhanya | 1999-12-01 | mba    | 70.00 | 45.00 | 60.00 | 175.00 | 58.33 |
+| VP21MC07 | nishmi | 1999-07-01 | mba    | 70.00 | 70.00 | 60.00 | 200.00 | 66.67 |
++----------+--------+------------+--------+-------+-------+-------+--------+-------+
+6 rows in set (0.01 sec)
+
+
+///1 prgrm
+select * from student s where exists(select br.usn from barrow br,book b where br.book_id=b.book_id and br.usn=s.usn group by usn having count(distinct author_id)>1);
++---------+---------+--------------------+------+-----+
+| usn     | name    | address            | b_id | sem |
++---------+---------+--------------------+------+-----+
+| VP0MC01 | keerthi | ujire,dharmasthala | M1   | 2   |
++---------+---------+--------------------+------+-----+
+1 row in set (0.00 sec)
+
+mysql> select * from student s where exists(select br.usn from barrow br,book b where br.book_id=b.book_id and br.usn=s.usn group by usn having count(distinct publisher)=1);
++---------+---------+--------------------+------+-----+
+| usn     | name    | address            | b_id | sem |
++---------+---------+--------------------+------+-----+
+| VP0CV21 | hari    | ujire,belthangadi  | E2   | 5   |
+| VP0MC01 | keerthi | ujire,dharmasthala | M1   | 2   |
+| VP0ME24 | harish  | mysore             | E1   | 4   |
++---------+---------+--------------------+------+-----+
+3 rows in set (0.01 sec)
+
+
+
+
+
+

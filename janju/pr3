@@ -1,0 +1,223 @@
+create table team(team_id varchar(10) primary key,
+ name varchar(20) not null,
+ city varchar(20) not null,
+ coach varchar(20) not null,
+ captain_id varchar(10));
+ 
+ alter table team add foreign key(captain_id) references player(player_id);
+
+create table player(player_id varchar(10) primary key,
+ name varchar(20) not null,
+ phone_no int(10) not null,
+ age int(3) not null,
+ team_id varchar(10),
+ foreign key(team_id) references team(team_id));
+  
+create table stadium(stadium_id varchar(10) primary key,
+ name varchar(20) not null,
+ city varchar(20) not null,
+ area varchar(20) not null,
+ pincode int(6) not null);
+ 
+
+create table playing(match_id varchar(10) primary key,
+mdate date not null,mtime time not null,
+team_id1 varchar(10),
+team_id2 varchar(10),stadium_id varchar(10),
+winner_id varchar(10) not null,
+foreign key(team_id1) references team(team_id),
+foreign key(team_id2) references team(team_id),
+foreign key(stadium_id) references stadium(stadium_id));
+
+
+create table winner(match_id varchar(10) not null,
+player_id varchar(10) not null,
+primary key(match_id,player_id),);
+ foreign key(match_id) references playing(match_id);
+foreign key(player_id) references player(player_id);
+
+mysql> desc player;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| player_id | varchar(10) | NO   | PRI | NULL    |       |
+| name      | varchar(20) | NO   |     | NULL    |       |
+| phone_no  | int         | NO   |     | NULL    |       |
+| age       | int         | NO   |     | NULL    |       |
+| team_id   | varchar(10) | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> desc playing;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| match_id   | varchar(10) | NO   | PRI | NULL    |       |
+| mdate      | date        | NO   |     | NULL    |       |
+| mtime      | time        | NO   |     | NULL    |       |
+| team_id1   | varchar(10) | YES  | MUL | NULL    |       |
+| team_id2   | varchar(10) | YES  | MUL | NULL    |       |
+| stadium_id | varchar(10) | YES  | MUL | NULL    |       |
+| winner_id  | varchar(10) | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc stadium;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| stadium_id | varchar(10) | NO   | PRI | NULL    |       |
+| name       | varchar(20) | NO   |     | NULL    |       |
+| city       | varchar(20) | NO   |     | NULL    |       |
+| area       | varchar(20) | NO   |     | NULL    |       |
+| pincode    | int         | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc team;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| team_id    | varchar(10) | NO   | PRI | NULL    |       |
+| name       | varchar(20) | NO   |     | NULL    |       |
+| city       | varchar(20) | NO   |     | NULL    |       |
+| coach      | varchar(20) | NO   |     | NULL    |       |
+| captain_id | varchar(10) | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc winner;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| match_id  | varchar(10) | NO   | PRI | NULL    |       |
+| player_id | varchar(10) | NO   | PRI | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 
+
+insert into team(team_id,name,city,coach) values ("T01","banglore bulls","banglore","gururaj");
+
+
+insert into player values ("p05","manish",445676,22,"T05");
+insert into player values ("p06","girish",567366,49,"T06");
+insert into player values ("p07","dhanu",441077,34,"T01");
+insert into player values ("p08","mahima",441966,29,"T03");
+insert into player values ("p09","nishmi",444566,19,"T02");
+insert into player values ("p10","nemma",455066,79,"T06");
+
+
+update team set captain_id="p01" where team_id="T01";
+update team set captain_id="p02" where team_id="T02";
+update team set captain_id="p03" where team_id="T03";
+update team set captain_id="p04" where team_id="T04";
+update team set captain_id="p05" where team_id="T05";
+update team set captain_id="p06" where team_id="T06";
+
+mysql> select * from team;
++---------+----------------+----------+-----------+------------+
+| team_id | name           | city     | coach     | captain_id |
++---------+----------------+----------+-----------+------------+
+| T01     | banglore bulls | banglore | gururaj   | p01        |
+| T02     | csk            | chenai   | karthik   | p02        |
+| T03     | mcb            | manglore | anil      | p03        |
+| T04     | rcb            | puttur   | ganesh    | p04        |
+| T05     | tamil talaiva  | kerala   | manikanta | p05        |
+| T06     | malali         | amdra    | sachin    | p06        |
++---------+----------------+----------+-----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from player;
++-----------+---------+----------+-----+---------+
+| player_id | name    | phone_no | age | team_id |
++-----------+---------+----------+-----+---------+
+| p01       | sachin  |   791018 |  35 | T01     |
+| p02       | ajay    |   791088 |  45 | T02     |
+| p03       | karthik |   441088 |  49 | T03     |
+| p04       | girish  |   441066 |  49 | T04     |
+| p05       | manish  |   445676 |  22 | T05     |
+| p06       | girish  |   567366 |  49 | T06     |
+| p07       | dhanu   |   441077 |  34 | T01     |
+| p08       | mahima  |   441966 |  29 | T03     |
+| p09       | nishmi  |   444566 |  19 | T02     |
+| p10       | nemma   |   455066 |  79 | T06     |
++-----------+---------+----------+-----+---------+
+10 rows in set (0.00 sec)
+
+insert into stadium values("s01","aa acadamy","ujire","manglore",574216);
+
+insert into stadium values("s02","chenna swami","banglore","banglore",574219);
+insert into stadium values("s03","wankade","chennai","tamil nadu",574230);
+insert into stadium values("s04","Mdh school","ujire","andra",574240);
+
+mysql> select * from stadium;
++------------+--------------+----------+------------+---------+
+| stadium_id | name         | city     | area       | pincode |
++------------+--------------+----------+------------+---------+
+| s01        | aa acadamy   | ujire    | manglore   |  574216 |
+| s02        | chenna swami | banglore | banglore   |  574219 |
+| s03        | wankade      | chennai  | tamil nadu |  574230 |
+| s04        | Mdh school   | ujire    | andra      |  574240 |
++------------+--------------+----------+------------+---------+
+4 rows in set (0.01 sec)
+
+insert into playing values("m01","2021-03-10",10.30,"T01","T02","s02","T01");
+insert into playing values("m02","2021-03-10",11.30,"T03","T02","s02","T03");
+insert into playing values("m04","2021-03-10",10.30,"T04","T02","s01","T02");
+insert into playing values("m01","2021-03-10",10.30,"T01","T03","s03","T01");
+
+ select * from playing;
++----------+------------+-------+----------+----------+------------+-----------+
+| match_id | mdate      | mtime | team_id1 | team_id2 | stadium_id | winner_id |
++----------+------------+-------+----------+----------+------------+-----------+
+| m01      | 2021-03-10 | 10.30 | T01      | T02      | s02        | T01       |
+| m02      | 2021-03-10 | 11.30 | T03      | T02      | s02        | T03       |
+| m04      | 2021-03-10 | 10.30 | T04      | T02      | s01        | T02       |
+| m05      | 2021-03-10 | 10.30 | T01      | T03      | s03        | T01       |
++----------+------------+-------+----------+----------+------------+-----------+
+4 rows in set (0.00 sec)
+ysql> select * from winner;
++----------+-----------+
+| match_id | player_id |
++----------+-----------+
+| m01      | p01       |
+| m02      | p03       |
+| m04      | p05       |
+| m05      | p09       |
++----------+-----------+
+4 rows in set (0.00 sec)
+
+
+
+select p.name,t.name ,age from player p,team t where t.team_id=p.team_id and age=(select min(age) from player);
++--------+------+-----+
+| name   | name | age |
++--------+------+-----+
+| nishmi | csk  |  19 |
++--------+------+-----+
+1 row in set (0.00 sec)
+
+
+select * from stadium where stadium_id=(select stadium_id from playing group by stadium_id order by count(stadium_id) desc limit 1);
++------------+--------------+----------+----------+---------+
+| stadium_id | name         | city     | area     | pincode |
++------------+--------------+----------+----------+---------+
+| s02        | chenna swami | banglore | banglore |  574219 |
++------------+--------------+----------+----------+---------+
+
+select * from player where player_id in(select player_id from winner where player_id not in(select captain_id from team) group by player_id having count(player_id)>=2);
+Empty set (0.00 sec)
+
+
+
+ select * from team where team_id=(select winner_id from playing group by winner_id order by count(winner_id) desc limit 1);
++---------+----------------+----------+---------+------------+
+| team_id | name           | city     | coach   | captain_id |
++---------+----------------+----------+---------+------------+
+| T01     | banglore bulls | banglore | gururaj | p01        |
++---------+----------------+----------+---------+------------+
+1 row in set (0.00 sec)
+
+
+select * from team where team_id in(select winner_id from playing group by winner_id having count(stadium_id)>=2);
+
+
