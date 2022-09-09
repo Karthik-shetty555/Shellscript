@@ -1,0 +1,309 @@
+create table const(const_id varchar(10) primary key,
+name varchar(20) not null,
+no_of_voters varchar(6) not null,
+state varchar(20) not null);
+desc const;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| const_id     | varchar(10) | NO   | PRI | NULL    |       |
+| name         | varchar(20) | NO   |     | NULL    |       |
+| no_of_voters | varchar(6)  | NO   |     | NULL    |       |
+| state        | varchar(20) | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+create table party(party_id varchar(10) primary key,
+name varchar(20) not null,
+symbol varchar(6) not null);
+desc party;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| party_id | varchar(10) | NO   | PRI | NULL    |       |
+| name     | varchar(20) | NO   |     | NULL    |       |
+| symbol   | varchar(6)  | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+create table candidate(cand_id varchar(10) primary key,
+name varchar(20) not null,
+phone_no varchar(10),
+age int(3) not null,
+state varchar(20) not null,
+party_id varchar(10) not null,
+foreign key(party_id) references party(party_id));
+
+desc candidate;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| cand_id  | varchar(10) | NO   | PRI | NULL    |       |
+| name     | varchar(20) | NO   |     | NULL    |       |
+| phone_no | varchar(10) | YES  |     | NULL    |       |
+| age      | int         | NO   |     | NULL    |       |
+| state    | varchar(20) | NO   |     | NULL    |       |
+| party_id | varchar(10) | NO   | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+create table voter(voter_id varchar(10) primary key,
+name varchar(20) not null,
+phone_no varchar(10),
+age int(3) not null,
+house_no char(10) not null,
+city varchar(20) not null,
+state varchar(20) not null,
+pincode char(6) not null,
+const_id varchar(10) not null,
+cand_id varchar(10) not null, 
+foreign key(cand_id) references candidate(cand_id),
+foreign key(const_id) references const(const_id));
+ desc voter;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| voter_id | varchar(10) | NO   | PRI | NULL    |       |
+| name     | varchar(20) | NO   |     | NULL    |       |
+| phone_no | varchar(10) | YES  |     | NULL    |       |
+| age      | int         | NO   |     | NULL    |       |
+| house_no | char(10)    | NO   |     | NULL    |       |
+| city     | varchar(20) | NO   |     | NULL    |       |
+| state    | varchar(20) | NO   |     | NULL    |       |
+| pincode  | char(6)     | NO   |     | NULL    |       |
+| const_id | varchar(10) | NO   | MUL | NULL    |       |
+| cand_id  | varchar(10) | NO   | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+10 rows in set (0.01 sec)
+
+
+create table contest(const_id varchar(10) not null,
+cand_id varchar(10) not null, 
+primary key(const_id,cand_id),
+foreign key(cand_id) references candidate(cand_id),
+foreign key(const_id) references const(const_id));
+
+desc contest;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| const_id | varchar(10) | NO   | PRI | NULL    |       |
+| cand_id  | varchar(10) | NO   | PRI | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+insert into const values("con01","ujire","250000","karnataka");
+insert into const values("con02","mysore","250000","karnataka");
+insert into const values("con03","udupi","250090","karnataka");
+insert into const values("con04","ballary","251000","goa");
+insert into const values("con05","kodagu","25000","goa");
+
+
+select * from const;
++----------+---------+--------------+-----------+
+| const_id | name    | no_of_voters | state     |
++----------+---------+--------------+-----------+
+| con01    | ujire   | 250000       | karnataka |
+| con02    | mysore  | 250000       | karnataka |
+| con03    | udupi   | 250090       | karnataka |
+| con04    | ballary | 251000       | goa       |
+| con05    | kodagu  | 25000        | goa       |
++----------+---------+--------------+-----------+
+5 rows in set (0.00 sec)
+
+
+insert into party values("p01","bjp","kamala");
+insert into party values("p02","bsp","dog");
+insert into party values("p03","jds","tree");
+select * from party;
++----------+------+--------+
+| party_id | name | symbol |
++----------+------+--------+
+| p01      | bjp  | kamala |
+| p02      | bsp  | dog    |
+| p03      | jds  | tree   |
++----------+------+--------+
+3 rows in set (0.00 sec)
+
+ 
+
+insert into candidate values("can01","guru","908765432",34,"karnataka","p01");
+insert into candidate values("can03","dhanu","908766785",54,"goa","p01");
+insert into candidate values("can02","karthi","567865432",34,"karnataka","p02");
+insert into candidate values("can04","nishmi","908767432",60,"pune","p03");
+insert into candidate values("can01","neha","908765765",34,"karnataka","p03");
+
+select * from candidate;
++---------+--------+-----------+-----+-----------+----------+
+| cand_id | name   | phone_no  | age | state     | party_id |
++---------+--------+-----------+-----+-----------+----------+
+| can01   | guru   | 908765432 |  34 | karnataka | p01      |
+| can02   | karthi | 567865432 |  34 | karnataka | p02      |
+| can03   | dhanu  | 908766785 |  54 | goa       | p01      |
+| can04   | nishmi | 908767432 |  60 | pune      | p03      |
+| can05   | neha   | 908765765 |  34 | karnataka | p03      |
++---------+--------+-----------+-----+-----------+----------+
+5 rows in set (0.00 sec)
+
+
+
+insert into voter values("v01","nishmi","908765432",34,"098","ujire","karnataka","234567","con01","can01");
+insert into voter values("v02","nishmitha","908766753",34,"099","bellary","goa","234577","con04","can04");
+insert into voter values("v03","janju","908766888",84,"09","panja","karnataka","234587","con02","can02");
+insert into voter values("v04","mamu","908766663",36,"089","kajake","goa","234579","con05","can05");
+insert into voter values("v05","nisha","908766353",50,"69","kajake","goa","234579","con05","can05");
+
+select * from voter;
++----------+-----------+-----------+-----+----------+---------+-----------+---------+----------+---------+
+| voter_id | name      | phone_no  | age | house_no | city    | state     | pincode | const_id | cand_id |
++----------+-----------+-----------+-----+----------+---------+-----------+---------+----------+---------+
+| v01      | nishmi    | 908765432 |  34 | 098      | ujire   | karnataka | 234567  | con01    | can01   |
+| v02      | nishmitha | 908766753 |  34 | 099      | bellary | goa       | 234577  | con04    | can04   |
+| v03      | janju     | 908766888 |  84 | 09       | panja   | karnataka | 234587  | con02    | can02   |
+| v04      | mamu      | 908766663 |  36 | 089      | kajake  | goa       | 234579  | con05    | can05   |
+| v05      | nisha     | 908766353 |  50 | 69       | kajake  | goa       | 234579  | con05    | can05   |
++----------+-----------+-----------+-----+----------+---------+-----------+---------+----------+---------+
+5 rows in set (0.00 sec)
+
+
+
+
+
+
+insert into contest values("con01","can01");
+insert into contest values("con02","can02");
+insert into contest values("con03","can03");
+insert into contest values("con04","can04");
+insert into contest values("con01","can05");
+insert into contest values("con05","can05");
+
+ select * from contest;
++----------+---------+
+| const_id | cand_id |
++----------+---------+
+| con01    | can01   |
+| con02    | can02   |
+| con03    | can03   |
+| con04    | can04   |
+| con01    | can05   |
+| con05    | can05   |
++----------+---------+
+6 rows in set (0.00 sec)
+
+select * from candidate
+where cand_id in(
+select cand_id from contest
+join const on contest.const_id=const.const_id
+group by cand_id 
+having count(distinct(state))>1);
+---------+------+-----------+-----+-----------+----------+
+| cand_id | name | phone_no  | age | state     | party_id |
++---------+------+-----------+-----+-----------+----------+
+| can05   | neha | 908765765 |  34 | karnataka | p03      |
++---------+------+-----------+-----+-----------+----------+
+1 row in set (0.00 sec)
+
+
+2). select state,count(const_id) from const
+group by state 
+order by count(const_id)
+desc limit 1;
++-----------+-----------------+
+| state     | count(const_id) |
++-----------+-----------------+
+| karnataka |               3 |
++-----------+-----------------+
+1 row in set (0.00 sec)
+
+3).DELIMITER //
+create procedure abc(IN voter_id varchar(10),IN name varchar(20),
+IN phone_no varchar(10),
+IN age int(3),
+IN house_no char(10),
+IN city varchar(20),
+IN state varchar(20),
+IN Pincode char(6),
+IN const_id varchar(10),
+IN cand_id varchar(10))
+begin
+declare msg varchar(20);
+if Age>=18 then
+insert into voter(voter_id,name,phone_no,age,house_no,city,state,pincode,const_id,cand_id)
+values(voter_id,name,phone_no,age,house_no,city,state,pincode,const_id,cand_id);
+set msg="row inserted";
+else
+set msg="voter not eligible";
+end if;
+select msg;
+end//
+
+DELIMITER ;
+
+
+
+call abc("v20","nisha","908766353",50,"69","kajake","goa","234579","con05","can05");
++--------------+
+| msg          |
++--------------+
+| row inserted |
++--------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+4).
+DELIMITER //
+create procedure xyz(nname varchar(20))
+begin
+select no_of_voters from const where nname=name;
+end//
+
+call xyz('ujire');
+    -> //
++--------------+
+| no_of_voters |
++--------------+
+| 250003       |
++--------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+
+
+
+
+5).DELIMITER $$
+create trigger new1
+after insert on voter 
+for each row
+begin
+update const set
+const.no_of_voters=const.no_of_voters+3
+where const_id=new.const_id;
+END$$
+
+mysql> insert into voter values("v10","mahima","908765432",34,"098","ujire","karnataka","234567","con01","can01");
+    -> $$
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from const;
+    -> $$
++----------+---------+--------------+-----------+
+| const_id | name    | no_of_voters | state     |
++----------+---------+--------------+-----------+
+| con01    | ujire   | 250003       | karnataka |
+| con02    | mysore  | 250000       | karnataka |
+| con03    | udupi   | 250090       | karnataka |
+| con04    | ballary | 251000       | goa       |
+| con05    | kodagu  | 25000        | goa       |
++----------+---------+--------------+-----------+
+5 rows in set (0.01 sec)
+
+
+
